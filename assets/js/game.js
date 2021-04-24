@@ -58,7 +58,7 @@ var fight = function() {
           // subtract money from playerMoney for skipping
           playerMoney = playerMoney - 2;
         }
-        // if no (false), ask question again by running fight() again
+        // ask question again by running fight() again
         else {
           fight();
         }
