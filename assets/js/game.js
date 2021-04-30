@@ -7,11 +7,41 @@ var randomNumber = function(min, max) {
   return value;
 };
 
+var fightOrSkip = function () {
+  //ask player if they'd like to fight or skip using fightOrSkip function
+  var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP to choose.');
+
+  //enter conditional recursive call here!
+  if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+  }
+
+  promptFight = promptFight.toLowerCase();
+  //if player picks "skip" confirm and then stop the loop
+  if (promptFight === "skip") {
+    //confirm player want to skip
+    var confirmSkip = window.confirm("Are you sure you'd like to skip?");
+  
+  //if yes (true), leave fight
+  if (confirmSkip) {
+    window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+    //subtract money from playerMoney for skipping
+    playerInfo.playerMoney = Math.max(0, playerMoney - 10);
+
+    return true;
+    }
+  }
+}
+
 // fight function (now with parameter for enemy's object holding name, health, and attack values)
 var fight = function(enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    if (fightOrSkip()) {
+      break;
+    } 
+    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
     // if player picks "skip" confirm and then stop the loop
     if (promptFight === "skip" || promptFight === "SKIP") {
@@ -80,6 +110,7 @@ var startGame = function() {
     if (playerInfo.health > 0) {
       // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
       window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+      debugger;
 
       // pick new enemy to fight based on the index of the enemyInfo array
       var pickedEnemyObj = enemyInfo[i];
